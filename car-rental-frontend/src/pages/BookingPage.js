@@ -41,9 +41,20 @@ function BookingPage() {
     fetchCar();
   }, [carId, navigate]);
 
+  // Adjust endDate if startDate changes and endDate is before startDate
+  useEffect(() => {
+    if (startDate && endDate && endDate < startDate) {
+      toast.error('Return date must be after pickup date');
+      setEndDate(startDate);
+    }
+  }, [startDate, endDate]);
+
   // Check availability via backend API whenever dates change
   useEffect(() => {
-    if (!startDate || !endDate || !car) return;
+    if (!startDate || !endDate || !car) {
+      setIsAvailable(true);
+      return;
+    }
 
     const check = async () => {
       setCheckingAvailability(true);
@@ -169,7 +180,15 @@ function BookingPage() {
                 <input
                   type="date"
                   value={endDate}
-                  onChange={(e) => setEndDate(e.target.value)}
+                  onChange={(e) => {
+                    const selectedDate = e.target.value;
+                    if (startDate && selectedDate < startDate) {
+                      toast.error('Return date must be after pickup date');
+                      setEndDate(startDate);
+                    } else {
+                      setEndDate(selectedDate);
+                    }
+                  }}
                   min={startDate || new Date().toISOString().split('T')[0]}
                   required
                   disabled={!startDate}
@@ -194,7 +213,7 @@ function BookingPage() {
                 ) : (
                   <div className="flex items-center gap-2 text-red-700">
                     <span className="text-xl">✗</span>
-                    <span className="font-semibold">Sorry! This car is already booked for these dates.</span>
+                    <span className="font-semibold">This car is booked for selected dates.</span>
                   </div>
                 )}
               </div>
@@ -243,7 +262,7 @@ function BookingPage() {
                   : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                 }`}
             >
-              Proceed to Payment →
+              {isAvailable ? 'Book Now' : 'This car is booked for selected dates'}
             </button>
           </div>
         </div>

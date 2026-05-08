@@ -207,11 +207,31 @@ app.get('/api/cars/:id', async (req, res) => {
 
     let result;
     if (!isNaN(parseInt(id))) {
-      result = await pool.query('SELECT * FROM cars WHERE id = $1', [parseInt(id)]);
+      result = await pool.query(
+        `SELECT c.*,
+          EXISTS (
+            SELECT 1 FROM bookings b
+            WHERE b.car_id = c.id AND b.status IN ('approved', 'pending')
+            AND CURRENT_DATE >= b.start_date
+            AND CURRENT_DATE <= GREATEST(b.start_date, b.end_date - 1)
+          ) as is_currently_booked
+         FROM cars c WHERE c.id = $1`,
+        [parseInt(id)]
+      );
     }
 
     if (!result || result.rows.length === 0) {
-      result = await pool.query('SELECT * FROM cars WHERE car_id = $1', [id]);
+      result = await pool.query(
+        `SELECT c.*,
+          EXISTS (
+            SELECT 1 FROM bookings b
+            WHERE b.car_id = c.id AND b.status IN ('approved', 'pending')
+            AND CURRENT_DATE >= b.start_date
+            AND CURRENT_DATE <= GREATEST(b.start_date, b.end_date - 1)
+          ) as is_currently_booked
+         FROM cars c WHERE c.car_id = $1`,
+        [id]
+      );
     }
 
     if (result.rows.length === 0) {
@@ -244,8 +264,9 @@ app.get('/api/cars/:id/availability', async (req, res) => {
 
     const result = await pool.query(
       `SELECT * FROM bookings
-       WHERE car_id = $1 AND status = 'approved'
-       AND daterange(start_date, end_date, '[]') && daterange($2, $3, '[]')`,
+       WHERE car_id = $1
+       AND status NOT IN ('cancelled', 'declined')
+       AND NOT ($3 < start_date OR $2 > end_date)`,
       [carDbId, startDate, endDate]
     );
 
@@ -275,6 +296,19 @@ app.post('/api/bookings', protect, async (req, res) => {
     }
     if (!carDbId) {
       return res.status(400).json({ success: false, message: 'Car not found' });
+    }
+
+    const overlapCheck = await pool.query(
+      `SELECT 1 FROM bookings
+       WHERE car_id = $1
+       AND status NOT IN ('cancelled', 'declined')
+       AND NOT ($3 < start_date OR $2 > end_date)
+       LIMIT 1`,
+      [carDbId, startDate, endDate]
+    );
+
+    if (overlapCheck.rows.length > 0) {
+      return res.status(409).json({ success: false, message: 'Car is already booked for selected dates' });
     }
 
     const finalPaidAmount = paymentStatus === 'confirmed' ? totalPrice : 0;
