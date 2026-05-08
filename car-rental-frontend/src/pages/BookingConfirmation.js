@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
-import axios from 'axios';
+import { getUserBookings } from '../services/api';
 
 function BookingConfirmation() {
   const location = useLocation();
@@ -21,7 +21,7 @@ function BookingConfirmation() {
       
       // If no booking in state, try to get the latest booking from backend
       try {
-        const response = await axios.get('http://localhost:5000/api/bookings/my-bookings');
+        const response = await getUserBookings();
         console.log('Latest bookings:', response.data);
         
         if (response.data.success && response.data.bookings.length > 0) {
@@ -84,7 +84,7 @@ function BookingConfirmation() {
   };
 
   const handleShare = () => {
-    const shareText = `🚗 *RentWheels Booking Confirmed!*\n\n*Booking ID:* #${booking.booking_id || booking.id}\n*Car:* ${booking.car_name || booking.carName}\n*Dates:* ${booking.start_date || booking.startDate} to ${booking.end_date || booking.endDate}\n*Total:* ${formatPrice(booking.total_price || booking.totalPrice)}\n\nThank you for choosing RentWheels!`;
+    const shareText = `RentWheels Booking Confirmed!\n\nBooking ID: #${booking.booking_id || booking.id}\nCar: ${booking.car_name || booking.carName}\nDates: ${booking.start_date || booking.startDate} to ${booking.end_date || booking.endDate}\nTotal: ${formatPrice(booking.total_price || booking.totalPrice)}\n\nThank you for choosing RentWheels!`;
     
     // Create WhatsApp Share URL
     const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`;
@@ -114,7 +114,7 @@ function BookingConfirmation() {
         {/* Success Animation */}
         <div className="text-center mb-8">
           <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <span className="text-4xl">✓</span>
+            <span className="text-2xl font-bold">OK</span>
           </div>
           <h1 className="text-3xl font-bold text-gray-800 mb-2">Booking Confirmed!</h1>
           <p className="text-gray-500">Your booking has been successfully confirmed</p>
@@ -128,15 +128,15 @@ function BookingConfirmation() {
           
           <div className="p-6">
             <div className="flex items-center gap-4 pb-4 border-b">
-              {(booking.car_image || booking.carImage) ? (
+              {(booking.image_url || booking.car_image || booking.carImage) ? (
                 <img 
-                  src={booking.car_image || booking.carImage} 
+                  src={booking.image_url || booking.car_image || booking.carImage} 
                   alt={booking.car_name || booking.carName} 
                   className="w-24 h-16 object-cover rounded-lg"
                   onError={(e) => { e.target.style.display = 'none'; }}
                 />
               ) : (
-                <span className="text-5xl">🚗</span>
+                <span className="text-3xl font-bold text-blue-900">CAR</span>
               )}
               <div>
                 <h3 className="text-xl font-bold">{booking.car_name || booking.carName}</h3>
@@ -185,10 +185,10 @@ function BookingConfirmation() {
         {/* Action Buttons */}
         <div className="flex gap-4">
           <button onClick={handleDownloadInvoice} className="flex-1 bg-gray-200 text-gray-700 py-3 rounded-xl font-semibold hover:bg-gray-300 transition">
-            📄 Download Invoice
+            Download Invoice
           </button>
           <button onClick={handleShare} className="flex-1 bg-green-600 text-white py-3 rounded-xl font-semibold hover:bg-green-700 transition">
-            📤 Share Details
+            Share Details
           </button>
           <Link to="/bookings" className="flex-1 bg-blue-900 text-white py-3 rounded-xl font-semibold text-center hover:bg-blue-800 transition">
             View My Bookings

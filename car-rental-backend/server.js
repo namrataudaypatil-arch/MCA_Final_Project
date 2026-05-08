@@ -1,5 +1,8 @@
 const express = require('express');
 const cors = require('cors');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
+const { body, validationResult } = require('express-validator');
 require('dotenv').config();
 const { Pool } = require('pg');
 const bcrypt = require('bcryptjs');
@@ -7,6 +10,8 @@ const jwt = require('jsonwebtoken');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+
+app.set('trust proxy', 1);
 
 // Database connection
 const pool = new Pool({
@@ -28,8 +33,31 @@ pool.connect((err, client, release) => {
 });
 
 // Middleware
-app.use(cors());
-app.use(express.json());
+app.use(helmet());
+app.use(cors({
+  origin: process.env.CLIENT_URL || 'http://localhost:3000',
+  credentials: true
+}));
+app.use(express.json({ limit: '10kb' }));
+
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 100,
+  standardHeaders: true,
+  legacyHeaders: false
+});
+
+const handleValidation = (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({
+      success: false,
+      message: 'Validation failed',
+      errors: errors.array()
+    });
+  }
+  next();
+};
 
 // ============ AUTH MIDDLEWARE ============
 const protect = async (req, res, next) => {
@@ -66,7 +94,16 @@ const adminOnly = (req, res, next) => {
 };
 
 // ============ REGISTRATION API ============
-app.post('/api/auth/register', async (req, res) => {
+app.post(
+  '/api/auth/register',
+  authLimiter,
+  [
+    body('name').trim().isLength({ min: 2 }).withMessage('Name must be at least 2 characters'),
+    body('email').isEmail().normalizeEmail().withMessage('Valid email is required'),
+    body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters')
+  ],
+  handleValidation,
+  async (req, res) => {
   try {
     const { name, email, password } = req.body;
     console.log('📝 Registration attempt:', { name, email });
@@ -94,10 +131,19 @@ app.post('/api/auth/register', async (req, res) => {
     console.error('❌ Registration error:', error);
     res.status(500).json({ success: false, message: 'Server error' });
   }
-});
+  }
+);
 
 // ============ LOGIN API (issues real JWT) ============
-app.post('/api/auth/login', async (req, res) => {
+app.post(
+  '/api/auth/login',
+  authLimiter,
+  [
+    body('email').isEmail().normalizeEmail().withMessage('Valid email is required'),
+    body('password').notEmpty().withMessage('Password is required')
+  ],
+  handleValidation,
+  async (req, res) => {
   try {
     const { email, password } = req.body;
     console.log('🔐 Login attempt:', email);
@@ -131,7 +177,8 @@ app.post('/api/auth/login', async (req, res) => {
     console.error('❌ Login error:', error);
     res.status(500).json({ success: false, message: 'Server error' });
   }
-});
+  }
+);
 
 // ============ GET CARS API (public) ============
 app.get('/api/cars', async (req, res) => {
@@ -556,19 +603,7 @@ app.get('/health', (req, res) => {
 
 // ============ START SERVER ============
 app.listen(PORT, () => {
-  console.log(`\n🚀 Server running on port ${PORT}`);
-  console.log(`📍 http://localhost:${PORT}`);
-  console.log(`🔗 Test Cars API: http://localhost:${PORT}/api/cars\n`);
-});
-
-// ============ HEALTH CHECK ============
-app.get('/health', (req, res) => {
-  res.json({ status: 'OK', message: 'Server is running' });
-});
-
-// ============ START SERVER ============
-app.listen(PORT, () => {
-  console.log(`\n🚀 Server running on port ${PORT}`);
-  console.log(`📍 http://localhost:${PORT}`);
-  console.log(`🔗 Test Cars API: http://localhost:${PORT}/api/cars\n`);
+  console.log(`\nServer running on port ${PORT}`);
+  console.log(`http://localhost:${PORT}`);
+  console.log(`Test Cars API: http://localhost:${PORT}/api/cars\n`);
 });
