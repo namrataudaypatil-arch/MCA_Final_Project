@@ -60,7 +60,7 @@ function HomePage() {
     ];
 
     return (
-      <div className="bg-gray-50 min-h-screen">
+      <div className="bg-gray-50 dark:bg-slate-900 min-h-screen transition-colors duration-300">
         <section className="relative bg-gradient-to-r from-blue-900 to-blue-700 text-white py-20 px-4">
           <div className="absolute inset-0 bg-black opacity-20"></div>
           <div className="relative max-w-6xl mx-auto text-center z-10">
@@ -81,80 +81,80 @@ function HomePage() {
         <div className="max-w-7xl mx-auto py-12 px-4">
           <div className="grid md:grid-cols-4 gap-6 mb-12">
             {statCards.map((card) => (
-              <div key={card.label} className={`bg-white rounded-2xl shadow-lg p-6 border-l-4 ${card.color} hover:shadow-xl transition`}>
+              <div key={card.label} className={`bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-6 border-l-4 ${card.color} hover:shadow-xl transition duration-300`}>
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-gray-500 text-sm">{card.label}</p>
-                    <p className="text-3xl font-bold text-gray-800">
+                    <p className="text-gray-500 dark:text-gray-400 text-sm">{card.label}</p>
+                    <p className="text-3xl font-bold text-gray-800 dark:text-white">
                       {adminLoading ? '...' : card.value}
                     </p>
                   </div>
-                  <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center">
-                    <span className="text-sm font-bold text-gray-700">{card.icon}</span>
+                  <div className="w-12 h-12 bg-gray-100 dark:bg-slate-700 rounded-full flex items-center justify-center transition-colors duration-300">
+                    <span className="text-sm font-bold text-gray-700 dark:text-gray-200">{card.icon}</span>
                   </div>
                 </div>
               </div>
             ))}
           </div>
 
-          <h2 className="text-2xl font-bold text-gray-800 mb-6">Quick Actions</h2>
+          <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-6 transition-colors duration-300">Quick Actions</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <Link to="/admin/cars" className="bg-white rounded-2xl shadow-lg p-6 text-center hover:shadow-2xl transition transform hover:-translate-y-2">
+            <Link to="/admin/cars" className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-6 text-center hover:shadow-2xl transition duration-300 transform hover:-translate-y-2">
               <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-sm font-bold text-blue-900">CAR</span>
+                <span className="text-sm font-bold text-blue-900 dark:text-blue-200">CAR</span>
               </div>
-              <h3 className="text-lg font-bold text-gray-800 mb-2">Manage Cars</h3>
-              <p className="text-gray-500 text-sm">Add, edit, or remove cars</p>
+              <h3 className="text-lg font-bold text-gray-800 dark:text-white mb-2 transition-colors duration-300">Manage Cars</h3>
+              <p className="text-gray-500 dark:text-gray-400 text-sm transition-colors duration-300">Add, edit, or remove cars</p>
             </Link>
 
-            <Link to="/admin/users" className="bg-white rounded-2xl shadow-lg p-6 text-center hover:shadow-2xl transition transform hover:-translate-y-2">
+            <Link to="/admin/users" className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-6 text-center hover:shadow-2xl transition duration-300 transform hover:-translate-y-2">
               <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-sm font-bold text-green-900">USR</span>
+                <span className="text-sm font-bold text-green-900 dark:text-green-800">USR</span>
               </div>
-              <h3 className="text-lg font-bold text-gray-800 mb-2">Manage Users</h3>
-              <p className="text-gray-500 text-sm">View all registered users</p>
+              <h3 className="text-lg font-bold text-gray-800 dark:text-white mb-2 transition-colors duration-300">Manage Users</h3>
+              <p className="text-gray-500 dark:text-gray-400 text-sm transition-colors duration-300">View all registered users</p>
             </Link>
 
-            <Link to="/admin/bookings" className="bg-white rounded-2xl shadow-lg p-6 text-center hover:shadow-2xl transition transform hover:-translate-y-2">
+            <Link to="/admin/bookings" className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-6 text-center hover:shadow-2xl transition duration-300 transform hover:-translate-y-2">
               <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-sm font-bold text-purple-900">BKG</span>
+                <span className="text-sm font-bold text-purple-900 dark:text-purple-800">BKG</span>
               </div>
-              <h3 className="text-lg font-bold text-gray-800 mb-2">All Bookings</h3>
-              <p className="text-gray-500 text-sm">View and manage bookings</p>
+              <h3 className="text-lg font-bold text-gray-800 dark:text-white mb-2 transition-colors duration-300">All Bookings</h3>
+              <p className="text-gray-500 dark:text-gray-400 text-sm transition-colors duration-300">View and manage bookings</p>
             </Link>
 
-            <Link to="/admin/reports" className="bg-white rounded-2xl shadow-lg p-6 text-center hover:shadow-2xl transition transform hover:-translate-y-2">
+            <Link to="/admin/reports" className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-6 text-center hover:shadow-2xl transition duration-300 transform hover:-translate-y-2">
               <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-sm font-bold text-yellow-900">RPT</span>
+                <span className="text-sm font-bold text-yellow-900 dark:text-yellow-800">RPT</span>
               </div>
-              <h3 className="text-lg font-bold text-gray-800 mb-2">Reports</h3>
-              <p className="text-gray-500 text-sm">View revenue analytics</p>
+              <h3 className="text-lg font-bold text-gray-800 dark:text-white mb-2 transition-colors duration-300">Reports</h3>
+              <p className="text-gray-500 dark:text-gray-400 text-sm transition-colors duration-300">View revenue analytics</p>
             </Link>
           </div>
 
           <div className="mt-12">
-            <h2 className="text-2xl font-bold text-gray-800 mb-6">Recent Activity</h2>
-            <div className="bg-white rounded-2xl shadow-lg p-6">
+            <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-6 transition-colors duration-300">Recent Activity</h2>
+            <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-6 transition-colors duration-300">
               {adminLoading ? (
-                <p className="text-gray-500 text-center py-8">Loading recent bookings...</p>
+                <p className="text-gray-500 dark:text-gray-400 text-center py-8">Loading recent bookings...</p>
               ) : recentBookings.length === 0 ? (
-                <p className="text-gray-500 text-center py-8">No recent bookings yet</p>
+                <p className="text-gray-500 dark:text-gray-400 text-center py-8">No recent bookings yet</p>
               ) : (
                 <div className="space-y-4">
                   {recentBookings.map((booking) => (
-                    <div key={booking.id} className="flex items-center justify-between border-b pb-3">
+                    <div key={booking.id} className="flex items-center justify-between border-b dark:border-slate-700 pb-3 transition-colors duration-300">
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                          <span className="text-xs font-bold text-blue-900">CAR</span>
+                          <span className="text-xs font-bold text-blue-900 dark:text-blue-800">CAR</span>
                         </div>
                         <div>
-                          <p className="font-semibold text-gray-800">{booking.car_name}</p>
-                          <p className="text-sm text-gray-500">Booked by: {booking.user_email || 'User'}</p>
+                          <p className="font-semibold text-gray-800 dark:text-white">{booking.car_name}</p>
+                          <p className="text-sm text-gray-500 dark:text-gray-400">Booked by: {booking.user_email || 'User'}</p>
                         </div>
                       </div>
                       <div className="text-right">
-                        <p className="text-sm text-gray-500">{booking.start_date} to {booking.end_date}</p>
-                        <p className="font-semibold text-blue-600">{formatPrice(booking.total_price)}</p>
+                        <p className="text-sm text-gray-500 dark:text-gray-400">{booking.start_date} to {booking.end_date}</p>
+                        <p className="font-semibold text-blue-600 dark:text-blue-400">{formatPrice(booking.total_price)}</p>
                       </div>
                     </div>
                   ))}
@@ -195,24 +195,24 @@ function HomePage() {
         </div>
       </section>
 
-      <section className="py-16 px-4 bg-white">
+      <section className="py-16 px-4 bg-white dark:bg-slate-900 transition-colors duration-300">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold text-center text-gray-800 mb-12">Why Choose Us?</h2>
+          <h2 className="text-3xl font-bold text-center text-gray-800 dark:text-white mb-12 transition-colors duration-300">Why Choose Us?</h2>
           <div className="grid md:grid-cols-3 gap-8">
-            <div className="text-center p-6">
-              <div className="text-sm font-bold text-blue-900 mb-4">FLEET</div>
-              <h3 className="text-xl font-bold mb-2">Wide Selection</h3>
-              <p className="text-gray-600">Choose from 50+ premium vehicles</p>
+            <div className="text-center p-6 bg-gray-50 dark:bg-slate-800 rounded-2xl transition-colors duration-300">
+              <div className="text-sm font-bold text-blue-900 dark:text-blue-400 mb-4">FLEET</div>
+              <h3 className="text-xl font-bold mb-2 dark:text-white transition-colors duration-300">Wide Selection</h3>
+              <p className="text-gray-600 dark:text-gray-300 transition-colors duration-300">Choose from 50+ premium vehicles</p>
             </div>
-            <div className="text-center p-6">
-              <div className="text-sm font-bold text-blue-900 mb-4">COVER</div>
-              <h3 className="text-xl font-bold mb-2">Fully Insured</h3>
-              <p className="text-gray-600">Complete protection coverage</p>
+            <div className="text-center p-6 bg-gray-50 dark:bg-slate-800 rounded-2xl transition-colors duration-300">
+              <div className="text-sm font-bold text-blue-900 dark:text-blue-400 mb-4">COVER</div>
+              <h3 className="text-xl font-bold mb-2 dark:text-white transition-colors duration-300">Fully Insured</h3>
+              <p className="text-gray-600 dark:text-gray-300 transition-colors duration-300">Complete protection coverage</p>
             </div>
-            <div className="text-center p-6">
-              <div className="text-sm font-bold text-blue-900 mb-4">VALUE</div>
-              <h3 className="text-xl font-bold mb-2">Best Prices</h3>
-              <p className="text-gray-600">Competitive rates, no hidden fees</p>
+            <div className="text-center p-6 bg-gray-50 dark:bg-slate-800 rounded-2xl transition-colors duration-300">
+              <div className="text-sm font-bold text-blue-900 dark:text-blue-400 mb-4">VALUE</div>
+              <h3 className="text-xl font-bold mb-2 dark:text-white transition-colors duration-300">Best Prices</h3>
+              <p className="text-gray-600 dark:text-gray-300 transition-colors duration-300">Competitive rates, no hidden fees</p>
             </div>
           </div>
         </div>

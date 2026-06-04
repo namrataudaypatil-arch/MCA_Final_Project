@@ -71,20 +71,20 @@ function CarListingPage() {
 
   if (loading) {
     return (
-      <div className="bg-gray-50 min-h-screen flex items-center justify-center">
+      <div className="bg-gray-50 dark:bg-slate-900 min-h-screen flex items-center justify-center transition-colors duration-300">
         <div className="text-center">
-          <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-900 mb-4"></div>
-          <p className="text-gray-600">Loading cars...</p>
+          <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-900 dark:border-blue-400 mb-4"></div>
+          <p className="text-gray-600 dark:text-gray-300">Loading cars...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="bg-gray-50 min-h-screen py-12 px-4">
+    <div className="bg-gray-50 dark:bg-slate-900 min-h-screen py-12 px-4 transition-colors duration-300">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-4xl md:text-5xl font-bold text-center mb-4">Our Fleet</h1>
-        <p className="text-center text-gray-600 mb-12 text-lg">
+        <h1 className="text-4xl md:text-5xl font-bold text-center text-gray-900 dark:text-white mb-4 transition-colors duration-300">Our Fleet</h1>
+        <p className="text-center text-gray-600 dark:text-gray-300 mb-12 text-lg transition-colors duration-300">
           Choose from our premium collection of vehicles
         </p>
 
@@ -92,7 +92,7 @@ function CarListingPage() {
           {cars.map((car) => (
             <div
               key={car.id}
-              className="bg-white rounded-2xl shadow-lg overflow-hidden transition hover:shadow-2xl transform hover:scale-105 relative"
+              className="backdrop-blur-md bg-white/80 dark:bg-slate-800/80 border border-gray-100 dark:border-slate-700 rounded-3xl shadow-xl overflow-hidden transition-all hover:shadow-2xl transform hover:-translate-y-2 relative duration-300"
             >
               {car.isBooked && (
                 <div className="absolute top-4 right-4 bg-red-600 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg z-10">
@@ -108,19 +108,19 @@ function CarListingPage() {
                 }}
               />
               <div className="p-6">
-                <h3 className="text-xl font-bold mb-2">{car.name}</h3>
-                <div className="flex justify-between text-gray-500 mb-3 text-sm">
+                <h3 className="text-xl font-bold mb-2 text-gray-900 dark:text-white transition-colors duration-300">{car.name}</h3>
+                <div className="flex justify-between text-gray-500 dark:text-gray-400 mb-3 text-sm transition-colors duration-300">
                   <span>{car.type}</span>
                   <span>{car.seats} seats</span>
                   <span>{car.year}</span>
                 </div>
-                <p className="text-2xl font-bold text-blue-900 mb-4">
+                <p className="text-2xl font-bold text-blue-900 dark:text-blue-400 mb-4 transition-colors duration-300">
                   {formatPrice(car.price)}
-                  <span className="text-sm font-normal">/day</span>
+                  <span className="text-sm font-normal text-gray-500 dark:text-gray-400">/day</span>
                 </p>
                 <Link
                   to={`/booking/${car.id}`}
-                  className="block text-center bg-blue-900 text-white py-2 rounded-full font-semibold hover:bg-blue-800 transition"
+                  className="block text-center bg-gradient-to-r from-blue-900 to-blue-700 hover:from-blue-800 hover:to-blue-600 text-white py-3 rounded-xl font-bold shadow-md transition transform hover:-translate-y-0.5"
                 >
                   Book Now
                 </Link>

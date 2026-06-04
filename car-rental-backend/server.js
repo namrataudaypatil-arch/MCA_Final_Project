@@ -180,6 +180,96 @@ app.post(
   }
 );
 
+// ============ FORGOT PASSWORD (OTP-based, demo mode) ============
+const resetOtpStore = new Map(); // In-memory store: email -> { otp, expiresAt }
+
+app.post(
+  '/api/auth/forgot-password',
+  authLimiter,
+  [
+    body('email').isEmail().normalizeEmail().withMessage('Valid email is required')
+  ],
+  handleValidation,
+  async (req, res) => {
+  try {
+    const { email } = req.body;
+    console.log('🔑 Forgot password request for:', email);
+
+    // Check if user exists
+    const result = await pool.query('SELECT id, name, email FROM users WHERE email = $1', [email]);
+    if (result.rows.length === 0) {
+      return res.status(404).json({ success: false, message: 'No account found with this email address' });
+    }
+
+    // Generate 6-digit OTP
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const expiresAt = Date.now() + 10 * 60 * 1000; // 10 minutes
+
+    // Store OTP
+    resetOtpStore.set(email, { otp, expiresAt });
+
+    console.log(`✅ Reset OTP generated for ${email}: ${otp}`);
+
+    res.json({
+      success: true,
+      message: 'OTP sent successfully',
+      // In demo mode, we return the OTP (in production, send via email/SMS)
+      demoOtp: otp,
+      userName: result.rows[0].name
+    });
+  } catch (error) {
+    console.error('❌ Forgot password error:', error);
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+  }
+);
+
+// ============ RESET PASSWORD (verify OTP + update password) ============
+app.post(
+  '/api/auth/reset-password',
+  authLimiter,
+  [
+    body('email').isEmail().normalizeEmail().withMessage('Valid email is required'),
+    body('otp').isLength({ min: 6, max: 6 }).withMessage('OTP must be 6 digits'),
+    body('newPassword').isLength({ min: 6 }).withMessage('Password must be at least 6 characters')
+  ],
+  handleValidation,
+  async (req, res) => {
+  try {
+    const { email, otp, newPassword } = req.body;
+    console.log('🔐 Reset password attempt for:', email);
+
+    // Verify OTP
+    const stored = resetOtpStore.get(email);
+    if (!stored) {
+      return res.status(400).json({ success: false, message: 'No OTP requested for this email. Please request a new OTP.' });
+    }
+    if (Date.now() > stored.expiresAt) {
+      resetOtpStore.delete(email);
+      return res.status(400).json({ success: false, message: 'OTP has expired. Please request a new one.' });
+    }
+    if (stored.otp !== otp) {
+      return res.status(400).json({ success: false, message: 'Invalid OTP. Please check and try again.' });
+    }
+
+    // OTP is valid — hash new password and update
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+    await pool.query('UPDATE users SET password_hash = $1 WHERE email = $2', [hashedPassword, email]);
+
+    // Clean up OTP
+    resetOtpStore.delete(email);
+
+    console.log('✅ Password reset successful for:', email);
+    res.json({ success: true, message: 'Password reset successfully! You can now login with your new password.' });
+  } catch (error) {
+    console.error('❌ Reset password error:', error);
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+  }
+);
+
 // ============ GET CARS API (public) ============
 app.get('/api/cars', async (req, res) => {
   try {

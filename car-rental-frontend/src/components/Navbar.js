@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useTheme } from '../context/ThemeContext';
 
 function Navbar() {
   const { user, logout } = useAuth();
+  const { isDarkMode, toggleDarkMode } = useTheme();
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -18,8 +20,11 @@ function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link to="/" className="text-2xl font-bold bg-gradient-to-r from-white to-blue-300 bg-clip-text text-transparent">
-            RentWheels
+          <Link to="/" className="text-L font-bold bg-gradient-to-r from-white to-blue-300 bg-clip-text text-transparent">
+                        CAR RENTAL WEBSITE DEPLOYMENT USING DEVOPS TOOLS
+
+
+
           </Link>
 
           {/* Desktop Menu - Center */}
@@ -36,8 +41,17 @@ function Navbar() {
             )}
           </div>
 
-          {/* Auth Buttons - Right Side */}
+          {/* Right Side - Auth & Theme Toggle */}
           <div className="hidden md:flex space-x-4 items-center">
+            {/* Theme Toggle Button */}
+            <button
+              onClick={toggleDarkMode}
+              className="p-2 rounded-full hover:bg-gray-800 transition"
+              aria-label="Toggle Dark Mode"
+            >
+              {isDarkMode ? '☀️' : '🌙'}
+            </button>
+            
             {user ? (
               <>
                 <span className="text-blue-300 text-sm">Welcome, {user.name}!</span>

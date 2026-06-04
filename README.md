@@ -94,7 +94,7 @@ docker compose down -v
 Admin account seeded by `database/init.sql`:
 
 ```text
-Email: admin@rentwheels.com
+Email: admin@gmail.com
 Password: admin123
 ```
 

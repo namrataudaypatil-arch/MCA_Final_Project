@@ -132,7 +132,7 @@ function PaymentPage() {
       setShowOTP(true);
       
       // Toast notification acting as the "SMS"
-      toast.success(`📱 SMS: Your RentWheels OTP is ${newOtp}`, {
+      toast.success(`SMS: Your CAR RENTAL WEBSITE OTP is ${newOtp}`, {
         duration: 6000,
         icon: '💬',
       });
@@ -159,41 +159,41 @@ function PaymentPage() {
 
   if (!bookingData) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-900"></div>
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-slate-900 transition-colors duration-300">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-900 dark:border-blue-400"></div>
       </div>
     );
   }
 
   return (
-    <div className="bg-gray-50 min-h-screen py-12 px-4">
+    <div className="bg-gray-50 dark:bg-slate-900 min-h-screen py-12 px-4 transition-colors duration-300">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-2">Secure Payment</h1>
-          <p className="text-gray-500">Complete your booking by making full payment</p>
+          <h1 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-2 transition-colors duration-300">Secure Payment</h1>
+          <p className="text-gray-500 dark:text-gray-400 transition-colors duration-300">Complete your booking by making full payment</p>
         </div>
 
         <div className="grid md:grid-cols-3 gap-6">
           {/* Payment Form */}
           <div className="md:col-span-2">
-            <div className="bg-white rounded-2xl shadow-lg p-6">
-              <h2 className="text-xl font-bold text-gray-800 mb-4">Payment Details</h2>
+            <div className="backdrop-blur-md bg-white/80 dark:bg-slate-800/80 border border-gray-100 dark:border-slate-700 rounded-3xl shadow-2xl p-8 transition-colors duration-300">
+              <h2 className="text-xl font-bold text-gray-800 dark:text-white mb-6 transition-colors duration-300">Payment Details</h2>
 
               {/* Full Payment Notice */}
-              <div className="mb-6 bg-blue-50 border border-blue-200 rounded-xl p-4">
+              <div className="mb-6 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800/50 rounded-xl p-5 transition-colors duration-300">
                 <div className="flex items-center gap-3">
                   <span className="text-2xl">💰</span>
                   <div>
-                    <p className="font-semibold text-blue-900">Full Payment Required</p>
-                    <p className="text-sm text-blue-700">Pay 100% now to confirm your booking</p>
+                    <p className="font-bold text-blue-900 dark:text-blue-400">Full Payment Required</p>
+                    <p className="text-sm text-blue-700 dark:text-blue-300">Pay 100% now to confirm your booking</p>
                   </div>
                 </div>
               </div>
 
               {/* Payment Method Selection */}
-              <div className="mb-6">
-                <label className="block text-gray-700 font-semibold mb-3">Select Payment Method</label>
-                <div className="grid grid-cols-2 gap-3">
+              <div className="mb-8">
+                <label className="block text-gray-700 dark:text-gray-300 font-semibold mb-3 transition-colors duration-300">Select Payment Method</label>
+                <div className="grid grid-cols-2 gap-4">
                   {[
                     { id: 'card', icon: '💳', label: 'Credit/Debit Card' },
                     { id: 'upi',  icon: '📱', label: 'UPI' },
@@ -204,12 +204,12 @@ function PaymentPage() {
                       key={id}
                       type="button"
                       onClick={() => { setPaymentMethod(id); setShowOTP(false); setOtp(''); }}
-                      className={`p-3 rounded-xl border-2 flex items-center gap-3 transition ${
-                        paymentMethod === id ? 'border-blue-900 bg-blue-50' : 'border-gray-200'
+                      className={`p-4 rounded-xl border-2 flex items-center gap-3 transition-colors duration-300 ${
+                        paymentMethod === id ? 'border-blue-600 bg-blue-50 dark:bg-blue-900/30 text-blue-900 dark:text-blue-400' : 'border-gray-200 dark:border-slate-600 hover:border-blue-300 dark:hover:border-blue-700 text-gray-700 dark:text-gray-300'
                       }`}
                     >
                       <span className="text-2xl">{icon}</span>
-                      <span className="font-medium">{label}</span>
+                      <span className="font-bold text-sm md:text-base">{label}</span>
                     </button>
                   ))}
                 </div>
@@ -217,9 +217,9 @@ function PaymentPage() {
 
               {/* Card Details */}
               {paymentMethod === 'card' && !showOTP && (
-                <div className="space-y-4">
+                <div className="space-y-5">
                   <div>
-                    <label className="block text-gray-700 mb-2">Card Number</label>
+                    <label className="block text-gray-700 dark:text-gray-300 font-semibold mb-2 transition-colors duration-300">Card Number</label>
                     <input
                       type="text"
                       placeholder="1234 5678 9012 3456"
@@ -229,23 +229,23 @@ function PaymentPage() {
                         if (v.length > 19) v = v.slice(0, 19);
                         setCardNumber(v);
                       }}
-                      className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-900"
+                      className="w-full px-5 py-4 bg-gray-50 dark:bg-slate-700 border border-gray-200 dark:border-slate-600 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 transition-colors duration-300 shadow-inner tracking-widest"
                       maxLength="19"
                     />
                   </div>
                   <div>
-                    <label className="block text-gray-700 mb-2">Cardholder Name</label>
+                    <label className="block text-gray-700 dark:text-gray-300 font-semibold mb-2 transition-colors duration-300">Cardholder Name</label>
                     <input
                       type="text"
-                      placeholder="John Doe"
+                      placeholder="JOHN DOE"
                       value={cardName}
                       onChange={(e) => setCardName(e.target.value.toUpperCase())}
-                      className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-900"
+                      className="w-full px-5 py-4 bg-gray-50 dark:bg-slate-700 border border-gray-200 dark:border-slate-600 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 transition-colors duration-300 shadow-inner"
                     />
                   </div>
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-gray-700 mb-2">Expiry Date</label>
+                      <label className="block text-gray-700 dark:text-gray-300 font-semibold mb-2 transition-colors duration-300">Expiry Date</label>
                       <input
                         type="text"
                         placeholder="MM/YY"
@@ -255,18 +255,18 @@ function PaymentPage() {
                           if (v.length > 5) v = v.slice(0, 5);
                           setExpiry(v);
                         }}
-                        className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-900"
+                        className="w-full px-5 py-4 bg-gray-50 dark:bg-slate-700 border border-gray-200 dark:border-slate-600 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 transition-colors duration-300 shadow-inner tracking-widest"
                         maxLength="5"
                       />
                     </div>
                     <div>
-                      <label className="block text-gray-700 mb-2">CVV</label>
+                      <label className="block text-gray-700 dark:text-gray-300 font-semibold mb-2 transition-colors duration-300">CVV</label>
                       <input
                         type="password"
                         placeholder="•••"
                         value={cvv}
                         onChange={(e) => setCvv(e.target.value.slice(0, 3))}
-                        className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-900"
+                        className="w-full px-5 py-4 bg-gray-50 dark:bg-slate-700 border border-gray-200 dark:border-slate-600 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 transition-colors duration-300 shadow-inner tracking-widest"
                         maxLength="3"
                       />
                     </div>
@@ -277,13 +277,13 @@ function PaymentPage() {
               {/* UPI Details */}
               {paymentMethod === 'upi' && !showOTP && (
                 <div>
-                  <label className="block text-gray-700 mb-2">UPI ID</label>
+                  <label className="block text-gray-700 dark:text-gray-300 font-semibold mb-2 transition-colors duration-300">UPI ID</label>
                   <input
                     type="text"
-                    placeholder="username@okhdfcbank"
+                    placeholder="username@bank"
                     value={upiId}
                     onChange={(e) => setUpiId(e.target.value)}
-                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-900"
+                    className="w-full px-5 py-4 bg-gray-50 dark:bg-slate-700 border border-gray-200 dark:border-slate-600 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 transition-colors duration-300 shadow-inner"
                   />
                 </div>
               )}
@@ -291,8 +291,8 @@ function PaymentPage() {
               {/* Net Banking */}
               {paymentMethod === 'netbanking' && !showOTP && (
                 <div>
-                  <label className="block text-gray-700 mb-2">Select Bank</label>
-                  <select className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-900">
+                  <label className="block text-gray-700 dark:text-gray-300 font-semibold mb-2 transition-colors duration-300">Select Bank</label>
+                  <select className="w-full px-5 py-4 bg-gray-50 dark:bg-slate-700 border border-gray-200 dark:border-slate-600 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 transition-colors duration-300 shadow-inner">
                     <option>State Bank of India</option>
                     <option>HDFC Bank</option>
                     <option>ICICI Bank</option>
@@ -305,16 +305,16 @@ function PaymentPage() {
 
               {/* OTP Verification */}
               {showOTP && (
-                <div className="mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-                  <label className="block text-gray-700 font-semibold mb-2">Enter OTP</label>
-                  <p className="text-sm text-gray-600 mb-1">A 6-digit OTP has been sent to your registered mobile number.</p>
-                  <p className="text-xs font-bold text-blue-700 mb-3">(Demo Mode: Please enter {generatedOtp})</p>
+                <div className="mt-6 p-6 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800/50 rounded-xl transition-colors duration-300">
+                  <label className="block text-gray-700 dark:text-gray-200 font-bold mb-2">Enter OTP</label>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">A 6-digit OTP has been sent to your registered mobile number.</p>
+                  <p className="text-sm font-bold text-blue-700 dark:text-blue-400 mb-4">(Demo Mode: Please enter {generatedOtp})</p>
                   <input
                     type="text"
                     placeholder="Enter 6-digit OTP"
                     value={otp}
                     onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
-                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-900"
+                    className="w-full px-5 py-4 bg-white dark:bg-slate-700 border border-gray-300 dark:border-slate-600 rounded-xl text-center text-xl tracking-[0.5em] text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-300 shadow-inner"
                     maxLength="6"
                   />
                 </div>
@@ -323,7 +323,7 @@ function PaymentPage() {
               <button
                 onClick={handlePayment}
                 disabled={loading}
-                className="w-full mt-6 bg-blue-900 text-white py-3 rounded-xl font-semibold hover:bg-blue-800 transition disabled:opacity-50"
+                className="w-full mt-8 bg-gradient-to-r from-blue-900 to-blue-700 hover:from-blue-800 hover:to-blue-600 text-white py-4 rounded-xl font-bold text-lg shadow-lg transform hover:-translate-y-1 transition duration-300 disabled:opacity-50 disabled:transform-none"
               >
                 {loading
                   ? 'Processing...'
@@ -331,11 +331,11 @@ function PaymentPage() {
                   ? 'Verify & Pay'
                   : paymentMethod === 'cash'
                   ? 'Confirm Booking (Pay at Pickup)'
-                  : `Pay ${formatPrice(bookingData.totalPrice)}`}
+                  : `Pay ${formatPrice(bookingData.totalPrice)} securely`}
               </button>
 
               {paymentMethod === 'cash' && (
-                <p className="text-sm text-gray-500 text-center mt-3">
+                <p className="text-sm font-semibold text-gray-500 dark:text-gray-400 text-center mt-4 transition-colors duration-300">
                   You will pay {formatPrice(bookingData.totalPrice)} at pickup
                 </p>
               )}
@@ -344,51 +344,51 @@ function PaymentPage() {
 
           {/* Order Summary */}
           <div className="md:col-span-1">
-            <div className="bg-white rounded-2xl shadow-lg p-6 sticky top-20">
-              <h2 className="text-xl font-bold text-gray-800 mb-4">Booking Summary</h2>
+            <div className="backdrop-blur-md bg-white/80 dark:bg-slate-800/80 border border-gray-100 dark:border-slate-700 rounded-3xl shadow-2xl p-8 sticky top-24 transition-colors duration-300">
+              <h2 className="text-xl font-bold text-gray-800 dark:text-white mb-6 transition-colors duration-300">Booking Summary</h2>
 
-              <div className="space-y-3 pb-4 border-b">
-                <div className="flex items-center gap-3">
+              <div className="space-y-4 pb-6 border-b border-gray-200 dark:border-slate-700 transition-colors duration-300">
+                <div className="flex items-center gap-4">
                   {bookingData.carImage ? (
                     <img
                       src={bookingData.carImage}
                       alt={bookingData.carName}
-                      className="w-14 h-12 object-cover rounded-lg"
+                      className="w-20 h-16 object-cover rounded-xl shadow-md"
                       onError={(e) => { e.target.style.display = 'none'; }}
                     />
                   ) : (
                     <span className="text-4xl">🚗</span>
                   )}
                   <div>
-                    <p className="font-semibold text-gray-800">{bookingData.carName}</p>
-                    <p className="text-sm text-gray-500">{formatPrice(bookingData.pricePerDay)}/day</p>
+                    <p className="font-bold text-lg text-gray-800 dark:text-white transition-colors duration-300">{bookingData.carName}</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 transition-colors duration-300">{formatPrice(bookingData.pricePerDay)}/day</p>
                   </div>
                 </div>
               </div>
 
-              <div className="space-y-2 py-4 border-b">
+              <div className="space-y-3 py-6 border-b border-gray-200 dark:border-slate-700 transition-colors duration-300">
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-600">Pickup Date</span>
-                  <span className="font-medium">{bookingData.startDate}</span>
+                  <span className="text-gray-600 dark:text-gray-400 font-medium">Pickup Date</span>
+                  <span className="font-bold text-gray-800 dark:text-white">{bookingData.startDate}</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-600">Return Date</span>
-                  <span className="font-medium">{bookingData.endDate}</span>
+                  <span className="text-gray-600 dark:text-gray-400 font-medium">Return Date</span>
+                  <span className="font-bold text-gray-800 dark:text-white">{bookingData.endDate}</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-600">Duration</span>
-                  <span className="font-medium">{bookingData.days} days</span>
+                  <span className="text-gray-600 dark:text-gray-400 font-medium">Duration</span>
+                  <span className="font-bold text-gray-800 dark:text-white">{bookingData.days} days</span>
                 </div>
               </div>
 
-              <div className="space-y-2 py-4">
+              <div className="space-y-3 py-6">
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Daily Rate × {bookingData.days}</span>
-                  <span>{formatPrice(bookingData.pricePerDay * bookingData.days)}</span>
+                  <span className="text-gray-600 dark:text-gray-400 font-medium">Daily Rate × {bookingData.days}</span>
+                  <span className="font-bold text-gray-800 dark:text-white">{formatPrice(bookingData.pricePerDay * bookingData.days)}</span>
                 </div>
-                <div className="flex justify-between font-bold text-lg pt-2 border-t">
-                  <span>Total Amount</span>
-                  <span className="text-blue-900">{formatPrice(bookingData.totalPrice)}</span>
+                <div className="flex justify-between font-extrabold text-xl pt-4 border-t border-gray-200 dark:border-slate-700 transition-colors duration-300">
+                  <span className="text-gray-900 dark:text-white">Total Amount</span>
+                  <span className="text-blue-700 dark:text-blue-400">{formatPrice(bookingData.totalPrice)}</span>
                 </div>
               </div>
             </div>

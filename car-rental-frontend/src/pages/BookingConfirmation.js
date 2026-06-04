@@ -56,7 +56,7 @@ function BookingConfirmation() {
   const handleDownloadInvoice = () => {
     // Create invoice content
     const invoiceContent = `
-      RENTWHEELS INVOICE
+      CAR RENTAL WEBSITE INVOICE
       ==================
       Booking ID: ${booking.booking_id || booking.id}
       Car: ${booking.car_name || booking.carName}
@@ -66,7 +66,7 @@ function BookingConfirmation() {
       Total Amount: ${formatPrice(booking.total_price || booking.totalPrice)}
       Payment Method: ${booking.payment_method || booking.paymentMethod}
       
-      Thank you for choosing RentWheels!
+      Thank you for choosing CAR RENTAL WEBSITE!
     `;
     
     // Create blob and download
@@ -84,7 +84,7 @@ function BookingConfirmation() {
   };
 
   const handleShare = () => {
-    const shareText = `RentWheels Booking Confirmed!\n\nBooking ID: #${booking.booking_id || booking.id}\nCar: ${booking.car_name || booking.carName}\nDates: ${booking.start_date || booking.startDate} to ${booking.end_date || booking.endDate}\nTotal: ${formatPrice(booking.total_price || booking.totalPrice)}\n\nThank you for choosing RentWheels!`;
+    const shareText = `CAR RENTAL WEBSITE Booking Confirmed!\n\nBooking ID: #${booking.booking_id || booking.id}\nCar: ${booking.car_name || booking.carName}\nDates: ${booking.start_date || booking.startDate} to ${booking.end_date || booking.endDate}\nTotal: ${formatPrice(booking.total_price || booking.totalPrice)}\n\nThank you for choosing CAR RENTAL WEBSITE!`;
     
     // Create WhatsApp Share URL
     const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`;
@@ -95,10 +95,10 @@ function BookingConfirmation() {
 
   if (loading) {
     return (
-      <div className="bg-gray-50 min-h-screen flex items-center justify-center">
+      <div className="bg-gray-50 dark:bg-slate-900 min-h-screen flex items-center justify-center transition-colors duration-300">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-900 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading booking details...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-900 dark:border-blue-400 mx-auto mb-4"></div>
+          <p className="text-gray-600 dark:text-gray-300">Loading booking details...</p>
         </div>
       </div>
     );
@@ -109,25 +109,25 @@ function BookingConfirmation() {
   }
 
   return (
-    <div className="bg-gray-50 min-h-screen py-12 px-4">
+    <div className="bg-gray-50 dark:bg-slate-900 min-h-screen py-12 px-4 transition-colors duration-300">
       <div className="max-w-3xl mx-auto">
         {/* Success Animation */}
         <div className="text-center mb-8">
-          <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <span className="text-2xl font-bold">OK</span>
+          <div className="w-20 h-20 bg-green-100 dark:bg-green-900/30 border-4 border-green-500 dark:border-green-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+            <span className="text-3xl font-bold text-green-600 dark:text-green-400">✓</span>
           </div>
-          <h1 className="text-3xl font-bold text-gray-800 mb-2">Booking Confirmed!</h1>
-          <p className="text-gray-500">Your booking has been successfully confirmed</p>
+          <h1 className="text-3xl font-bold text-gray-800 dark:text-white mb-2 transition-colors duration-300">Booking Confirmed!</h1>
+          <p className="text-gray-500 dark:text-gray-400 transition-colors duration-300">Your booking has been successfully confirmed</p>
         </div>
 
         {/* Booking Details */}
-        <div className="bg-white rounded-2xl shadow-lg overflow-hidden mb-6">
-          <div className="bg-gradient-to-r from-green-600 to-green-500 p-4 text-white">
-            <h2 className="font-semibold">Booking ID: #{booking.booking_id || booking.id}</h2>
+        <div className="backdrop-blur-md bg-white/80 dark:bg-slate-800/80 border border-gray-100 dark:border-slate-700 rounded-3xl shadow-2xl overflow-hidden mb-8 transition-colors duration-300">
+          <div className="bg-gradient-to-r from-green-600 to-green-500 p-5 text-white shadow-inner">
+            <h2 className="font-bold text-lg">Booking ID: #{booking.booking_id || booking.id}</h2>
           </div>
           
-          <div className="p-6">
-            <div className="flex items-center gap-4 pb-4 border-b">
+          <div className="p-8">
+            <div className="flex items-center gap-6 pb-6 border-b border-gray-200 dark:border-slate-700 transition-colors duration-300">
               {(booking.image_url || booking.car_image || booking.carImage) ? (
                 <img 
                   src={booking.image_url || booking.car_image || booking.carImage} 
@@ -144,38 +144,38 @@ function BookingConfirmation() {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4 py-4 border-b">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 py-6 border-b border-gray-200 dark:border-slate-700 transition-colors duration-300">
               <div>
-                <p className="text-gray-500 text-sm">Pickup Date</p>
-                <p className="font-semibold">{booking.start_date || booking.startDate}</p>
+                <p className="text-gray-500 dark:text-gray-400 text-sm mb-1">Pickup Date</p>
+                <p className="font-bold text-gray-900 dark:text-white transition-colors duration-300">{booking.start_date || booking.startDate}</p>
               </div>
               <div>
-                <p className="text-gray-500 text-sm">Return Date</p>
-                <p className="font-semibold">{booking.end_date || booking.endDate}</p>
+                <p className="text-gray-500 dark:text-gray-400 text-sm mb-1">Return Date</p>
+                <p className="font-bold text-gray-900 dark:text-white transition-colors duration-300">{booking.end_date || booking.endDate}</p>
               </div>
               <div>
-                <p className="text-gray-500 text-sm">Duration</p>
-                <p className="font-semibold">{booking.days} days</p>
+                <p className="text-gray-500 dark:text-gray-400 text-sm mb-1">Duration</p>
+                <p className="font-bold text-gray-900 dark:text-white transition-colors duration-300">{booking.days} days</p>
               </div>
               <div>
-                <p className="text-gray-500 text-sm">Payment Method</p>
-                <p className="font-semibold capitalize">{booking.payment_method || booking.paymentMethod || 'Card'}</p>
+                <p className="text-gray-500 dark:text-gray-400 text-sm mb-1">Payment Method</p>
+                <p className="font-bold text-gray-900 dark:text-white transition-colors duration-300 capitalize">{booking.payment_method || booking.paymentMethod || 'Card'}</p>
               </div>
             </div>
 
-            <div className="py-4">
-              <div className="flex justify-between mb-2">
+            <div className="py-6">
+              <div className="flex justify-between mb-3 text-gray-700 dark:text-gray-300 transition-colors duration-300">
                 <span>Total Amount</span>
-                <span className="font-bold">{formatPrice(booking.total_price || booking.totalPrice)}</span>
+                <span className="font-bold text-lg">{formatPrice(booking.total_price || booking.totalPrice)}</span>
               </div>
-              <div className="flex justify-between text-green-600">
+              <div className="flex justify-between text-green-600 dark:text-green-400 transition-colors duration-300">
                 <span>Amount Paid</span>
-                <span className="font-bold">{formatPrice(booking.paid_amount || booking.paidAmount || (booking.total_price || booking.totalPrice))}</span>
+                <span className="font-bold text-lg">{formatPrice(booking.paid_amount || booking.paidAmount || (booking.total_price || booking.totalPrice))}</span>
               </div>
               {(booking.remaining_amount || (booking.total_price - booking.paid_amount)) > 0 && (
-                <div className="flex justify-between text-orange-600 mt-2">
+                <div className="flex justify-between text-orange-600 dark:text-orange-400 mt-3 transition-colors duration-300">
                   <span>Remaining at Pickup</span>
-                  <span className="font-bold">{formatPrice((booking.total_price || booking.totalPrice) - (booking.paid_amount || booking.paidAmount || 0))}</span>
+                  <span className="font-bold text-lg">{formatPrice((booking.total_price || booking.totalPrice) - (booking.paid_amount || booking.paidAmount || 0))}</span>
                 </div>
               )}
             </div>
@@ -183,14 +183,14 @@ function BookingConfirmation() {
         </div>
 
         {/* Action Buttons */}
-        <div className="flex gap-4">
-          <button onClick={handleDownloadInvoice} className="flex-1 bg-gray-200 text-gray-700 py-3 rounded-xl font-semibold hover:bg-gray-300 transition">
+        <div className="flex flex-col md:flex-row gap-4">
+          <button onClick={handleDownloadInvoice} className="flex-1 bg-gray-200 dark:bg-slate-700 text-gray-800 dark:text-white py-4 rounded-xl font-bold hover:bg-gray-300 dark:hover:bg-slate-600 transition duration-300 shadow-md transform hover:-translate-y-1">
             Download Invoice
           </button>
-          <button onClick={handleShare} className="flex-1 bg-green-600 text-white py-3 rounded-xl font-semibold hover:bg-green-700 transition">
+          <button onClick={handleShare} className="flex-1 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white py-4 rounded-xl font-bold transition duration-300 shadow-md transform hover:-translate-y-1">
             Share Details
           </button>
-          <Link to="/bookings" className="flex-1 bg-blue-900 text-white py-3 rounded-xl font-semibold text-center hover:bg-blue-800 transition">
+          <Link to="/bookings" className="flex-1 bg-gradient-to-r from-blue-900 to-blue-700 hover:from-blue-800 hover:to-blue-600 text-white py-4 rounded-xl font-bold text-center transition duration-300 shadow-md transform hover:-translate-y-1">
             View My Bookings
           </Link>
         </div>

@@ -88,14 +88,15 @@ FOR EACH ROW
 EXECUTE FUNCTION set_booking_public_id();
 
 INSERT INTO users (name, email, password_hash, role)
-VALUES ('Admin User', 'admin@rentwheels.com', '$2b$10$SqSlwZx8q3ewVeQogcehjujrATk5VGR9ZPk.8UoR3hZeu3aQE3SI2', 'admin')
+VALUES ('Admin User', 'admin@gmail.com', '$2b$10$SqSlwZx8q3ewVeQogcehjujrATk5VGR9ZPk.8UoR3hZeu3aQE3SI2', 'admin')
 ON CONFLICT (email) DO NOTHING;
 
 INSERT INTO cars (car_id, name, brand, type, price_per_day, seats, year, fuel_type, transmission, image_url, description)
 VALUES
-  ('CAR001', 'Toyota Innova Crysta', 'Toyota', 'SUV', 3500, 7, 2023, 'Diesel', 'Manual', 'https://images.unsplash.com/photo-1549924231-f129b911e442?w=900&auto=format&fit=crop', 'Spacious family SUV for city and highway trips.'),
-  ('CAR002', 'Hyundai Creta', 'Hyundai', 'SUV', 2800, 5, 2023, 'Petrol', 'Automatic', 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=900&auto=format&fit=crop', 'Comfortable compact SUV with premium features.'),
-  ('CAR003', 'Honda City', 'Honda', 'Sedan', 2400, 5, 2022, 'Petrol', 'Manual', 'https://images.unsplash.com/photo-1550355291-bbee04a92027?w=900&auto=format&fit=crop', 'Reliable sedan with strong mileage and comfort.'),
-  ('CAR004', 'Mahindra Thar', 'Mahindra', 'SUV', 4200, 4, 2023, 'Diesel', 'Manual', 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=900&auto=format&fit=crop', 'Adventure-ready SUV for memorable weekend drives.'),
-  ('CAR005', 'Maruti Swift', 'Maruti Suzuki', 'Hatchback', 1600, 5, 2022, 'Petrol', 'Manual', 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=900&auto=format&fit=crop', 'Budget-friendly hatchback for daily travel.')
+  ('CAR001', 'Tesla Model 3', 'Tesla', 'Sedan', 7499, 5, 2023, 'Electric', 'Automatic', 'https://images.unsplash.com/photo-1560958089-b8a1929cea89?w=500&h=300&fit=crop', 'High-performance electric sedan with autopilot capabilities.'),
+  ('CAR002', 'BMW X5', 'BMW', 'SUV', 9999, 5, 2023, 'Petrol', 'Automatic', 'https://images.unsplash.com/photo-1555215695-3004980ad54e?w=500&h=300&fit=crop', 'Luxury midsize SUV offering powerful performance and a refined interior.'),
+  ('CAR003', 'Mercedes C-Class', 'Mercedes-Benz', 'Sedan', 8749, 5, 2022, 'Petrol', 'Automatic', 'https://images.unsplash.com/photo-1617814076367-b759c7d7e738?w=500&h=300&fit=crop', 'Sophisticated luxury sedan with advanced tech and comfort.'),
+  ('CAR004', 'Audi A6', 'Audi', 'Sedan', 8249, 5, 2023, 'Petrol', 'Automatic', 'https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=500&h=300&fit=crop', 'Elegant and tech-forward luxury sedan for a premium driving experience.'),
+  ('CAR005', 'Toyota Camry', 'Toyota', 'Sedan', 4499, 5, 2022, 'Hybrid', 'Automatic', 'https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?w=500&h=300&fit=crop', 'Reliable and comfortable midsize hybrid sedan for everyday travel.'),
+  ('CAR006', 'Honda CR-V', 'Honda', 'SUV', 5499, 5, 2023, 'Petrol', 'Automatic', 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=500&h=300&fit=crop', 'Spacious and practical compact SUV, perfect for families.')
 ON CONFLICT (car_id) DO NOTHING;
